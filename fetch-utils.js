@@ -12,7 +12,7 @@ export function getUser() {
 export function checkAuth() {
     const user = getUser();
     // do we have a user?
-    if (!user) {
+    if (!user) { 
         // path is different if we are at home page versus any other page
         const authUrl = location.pathname === '/' ? './auth/' : '../auth/';
         // include the current url as a "redirectUrl" search param so user can come
