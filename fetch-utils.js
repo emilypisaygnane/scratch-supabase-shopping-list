@@ -1,5 +1,5 @@
-const SUPABASE_URL = '';
-const SUPABASE_KEY = '';
+const SUPABASE_URL = 'https://zreruwbpazeflnpdvgpu.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpyZXJ1d2JwYXplZmxucGR2Z3B1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTk2Mzg0NDAsImV4cCI6MTk3NTIxNDQ0MH0.0w4nYxAaZh9xi9hDm28uWJV9oLX7WW7apIb6-J9S88E';
 
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
