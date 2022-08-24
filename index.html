@@ -26,7 +26,23 @@
     </header>
 
     <main>
-
+        <section>
+            <form id="add-grocery-form">
+                <label>
+                    Item:
+                    <input name="item" required placeholder="grocery item">
+                </label>
+                <label>
+                    Quantity:
+                    <input type="number" name="quantity" min="0" />
+                </label>
+                <button>Add to list</button>
+            </form>
+            <ul class="list">
+                <!--Grocery Items Below-->
+            </ul>
+            <button class="delete">Delete List</button>
+        </section>
     </main>
 
     <footer>&copy;2022 Alchemy Software Developer</footer>
