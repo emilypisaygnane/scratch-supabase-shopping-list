@@ -8,10 +8,12 @@ import {
     deleteItem
 } from './fetch-utils.js';
 
+import { renderItems } from './render-utils.js';
+
 checkAuth();
 
 const signOutLink = document.getElementById('sign-out-link');
-signOutLink.addEventListener('click', signOutUser);'
+signOutLink.addEventListener('click', signOutUser);
 
 const form = document.querySelector('add-grocery-form');
 const deleteButton = document.querySelector('delete');
@@ -70,7 +72,7 @@ function displayDeleteButton() {
 
 }
 deleteButton.addEventListener('click', async () => {
-    await deleteItems();
+    await deleteItem();
     itemsArr = [];
     displayItems();
 
