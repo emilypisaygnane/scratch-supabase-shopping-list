@@ -26,5 +26,55 @@ form.addEventListener('submit', async (e) => {
     const item = data.get('item');
     const quantity = data.get('quantity');
 
-    const newItem = await 
-})
+    const newItem = await addItem(item, quantity);
+    itemsArr.push(newItem);
+
+    await displayItems();
+
+    form.reset();
+
+});
+
+async function displayItems() {
+    listContainer.textContent = '';
+
+    itemsArr = await getItems();
+
+    for (let item of itemsArr) {
+        const renderedItem = renderItems(item);
+        renderedItem.addEventListener('click', async () => {
+            await boughtItem(item.id);
+
+            if (item.bought === true) {
+                renderedItem.classList.add('bought');
+            }
+
+            displayItems();
+
+        });
+
+        listContainer.append(renderedItem);
+    }
+
+    displayDeleteButton();
+
+}
+
+function displayDeleteButton() {
+    if (itemsArr.length > 0) {
+        deleteButton.classList.add('delete');
+        deleteButton.classList.remove('hidden');
+    } else if (itemsArr.length === 0) {
+        deleteButton.classList.add('hidden');
+    }
+
+}
+deleteButton.addEventListener('click', async () => {
+    await deleteItems();
+    itemsArr = [];
+    displayItems();
+
+});
+
+displayItems();
+displayDeleteButton();
