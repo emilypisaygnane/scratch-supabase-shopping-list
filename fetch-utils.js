@@ -43,3 +43,34 @@ export async function signOutUser() {
 }
 
 /* Data functions */
+
+export async function getItems() {
+    return await client 
+        .from('list')
+        .select();
+}
+
+export async function addItem(item, quantity) {
+    return await client
+        .from('list')
+        .insert([{
+            item,
+            quantity
+        }]);
+}
+
+export async function boughtItem(id) {
+    return await client
+        .from('list')
+        .update({ bought: true })
+        .match ({ id })
+        .single();
+
+}
+
+export async function deleteItem() {
+    return await client
+        .from('list')
+        .delete()
+        .match({ user_id: getUser().id });
+}
