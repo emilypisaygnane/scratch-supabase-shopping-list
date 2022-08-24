@@ -44,33 +44,49 @@ export async function signOutUser() {
 
 /* Data functions */
 
-export async function getItems() {
-    return await client 
-        .from('list')
-        .select();
-}
 
 export async function addItem(item, quantity) {
-    return await client
+    const response = await client
         .from('list')
-        .insert([{
+        .insert({
             item,
-            quantity
-        }]);
+            quantity,
+            bought: false,
+            user_id: client.auth.user().id
+        })
+        .single();
+
+    return checkError(response);
+}
+
+export async function getItems() {
+    const response = await client 
+        .from('list')
+        .select('*')
+        .order('id');
+
+    return checkError(response);
 }
 
 export async function boughtItem(id) {
-    return await client
+    const response = await client
         .from('list')
         .update({ bought: true })
         .match ({ id })
         .single();
 
+    return checkError(response);
 }
 
 export async function deleteItem() {
-    return await client
+    const response = await client
         .from('list')
         .delete()
         .match({ user_id: getUser().id });
+
+    return checkError(response);
+}
+
+function checkError({ data, error }) {
+    return error ? console.error(error) : data;
 }

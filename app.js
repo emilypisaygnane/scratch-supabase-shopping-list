@@ -1,23 +1,30 @@
-// importing other stuff, utility functions for:
-// working with supabase:
-import { checkAuth, signOutUser } from './fetch-utils.js';
-// pure rendering (data --> DOM):
 
-/*  "boiler plate" auth code */
-// checking if we have a user! (will redirect to auth if not):
+import { 
+    checkAuth, 
+    signOutUser,
+    addItem,
+    getItems,
+    boughtItem,
+    deleteItem
+} from './fetch-utils.js';
+
 checkAuth();
-// can optionally return the user:
-// const user = checkAuth();
 
-// sign out link:
 const signOutLink = document.getElementById('sign-out-link');
-signOutLink.addEventListener('click', signOutUser);
-/* end "boiler plate auth code" */
+signOutLink.addEventListener('click', signOutUser);'
 
-// grab needed DOM elements on page:
+const form = document.querySelector('add-grocery-form');
+const deleteButton = document.querySelector('delete');
+const listContainer = document.querySelector('.list');
 
-// local state:
+let itemsArr = [];
 
-// display functions:
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-// events:
+    const data = new FormData(form);
+    const item = data.get('item');
+    const quantity = data.get('quantity');
+
+    const newItem = await 
+})
