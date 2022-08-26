@@ -49,8 +49,8 @@ export async function addItem(item, quantity) {
     const response = await client
         .from('list')
         .insert({
-            item,
-            quantity,
+            item: item,
+            quantity: quantity,
             bought: false,
             user_id: client.auth.user().id
         })
@@ -72,17 +72,16 @@ export async function boughtItem(id) {
     const response = await client
         .from('list')
         .update({ bought: true })
-        .match ({ id })
-        .single();
+        .match ({ id: id });
 
     return checkError(response);
 }
 
-export async function deleteItem() {
+export async function deleteItems() {
     const response = await client
         .from('list')
         .delete()
-        .match({ user_id: getUser().id });
+        .match({ user_id: client.auth.user().id });
 
     return checkError(response);
 }

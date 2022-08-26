@@ -7,9 +7,9 @@ export function renderItems(item) {
     quantityP.textContent = `(${item.quantity})`;
 
     if (item.bought === true) {
-        div.classList.add('bought');
+        div.classList.add('item-bought');
     } else {
-        item.classList.add('item');
+        itemP.classList.add('list-item');
     }
 
     div.append(itemP, quantityP);

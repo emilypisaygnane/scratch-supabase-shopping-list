@@ -5,7 +5,7 @@ import {
     addItem,
     getItems,
     boughtItem,
-    deleteItem
+    deleteItems
 } from './fetch-utils.js';
 
 import { renderItems } from './render-utils.js';
@@ -25,45 +25,45 @@ form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const data = new FormData(form);
-    // const item = data.get('item');
-    // const quantity = data.get('quantity');
+    const item = data.get('item');
+    const quantity = data.get('quantity');
 
-    const response = {
-        item: data.get('item'),
-        quantity: data.get('quantity')
-    };
-
-    await addItem(response);
-    await displayItems();
+    const thing = await addItem(item, quantity);
+    itemsArr.push(thing);
+    displayItems();
 
     form.reset();
 
 });
 
+// async function handleBought(item) {
+//     await boughtItem(item.id);
+
+//     await displayItems();
+// }
+
 async function displayItems() {
     listContainer.textContent = '';
 
-    itemsArr = await getItems();
-
     for (let item of itemsArr) {
-        const renderedItem = renderItems(item);
-        renderedItem.addEventListener('click', async () => {
+        const renderItem = renderItems(item);
+
+        renderItem.addEventListener('click', async () => {
             await boughtItem(item.id);
 
-            if (item.bought === true) {
-                renderedItem.classList.add('bought');
-            }
-
-            displayItems();
-
+            renderItems.classList.add('item-bought');
         });
 
-        listContainer.append(renderedItem);
+        listContainer.append(renderItem);
     }
-
     displayDeleteButton();
 
 }
+
+window.addEventListener('load', async () => {
+    itemsArr = await getItems();
+    displayItems();
+});
 
 function displayDeleteButton() {
     if (itemsArr.length > 0) {
@@ -75,10 +75,9 @@ function displayDeleteButton() {
 
 }
 deleteButton.addEventListener('click', async () => {
-    await deleteItem();
+    await deleteItems();
     itemsArr = [];
-    displayItems();
-
+    await getItems();
 });
 
 displayItems();
