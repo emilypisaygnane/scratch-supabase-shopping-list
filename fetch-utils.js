@@ -1,5 +1,5 @@
-const SUPABASE_URL = '';
-const SUPABASE_KEY = '';
+const SUPABASE_URL = 'https://zreruwbpazeflnpdvgpu.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpyZXJ1d2JwYXplZmxucGR2Z3B1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTk2Mzg0NDAsImV4cCI6MTk3NTIxNDQ0MH0.0w4nYxAaZh9xi9hDm28uWJV9oLX7WW7apIb6-J9S88E';
 
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -12,7 +12,7 @@ export function getUser() {
 export function checkAuth() {
     const user = getUser();
     // do we have a user?
-    if (!user) {
+    if (!user) { 
         // path is different if we are at home page versus any other page
         const authUrl = location.pathname === '/' ? './auth/' : '../auth/';
         // include the current url as a "redirectUrl" search param so user can come
@@ -43,3 +43,48 @@ export async function signOutUser() {
 }
 
 /* Data functions */
+
+export async function addItem(item, quantity) {
+    const response = await client
+        .from('list')
+        .insert({
+            item: item,
+            quantity: quantity,
+            bought: false,
+            user_id: client.auth.user().id
+        })
+        .single();
+
+    return checkError(response);
+}
+
+export async function getItems() {
+    const response = await client 
+        .from('list')
+        .select('*')
+        .order('id');
+
+    return checkError(response);
+}
+
+export async function boughtItem(id) {
+    const response = await client
+        .from('list')
+        .update({ bought: true })
+        .match ({ id: id });
+
+    return checkError(response);
+}
+
+export async function deleteItems() {
+    const response = await client
+        .from('list')
+        .delete()
+        .match({ user_id: client.auth.user().id });
+
+    return checkError(response);
+}
+
+function checkError({ data, error }) {
+    return error ? console.error(error) : data;
+}
