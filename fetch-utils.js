@@ -44,7 +44,6 @@ export async function signOutUser() {
 
 /* Data functions */
 
-
 export async function addItem(item, quantity) {
     const response = await client
         .from('list')
